@@ -1,1 +1,37 @@
-/tempp
+# Django #
+*.log
+*.pot
+*.pyc
+online_judge/__pycache__
+online_judge/db.sqlite3
+online_judge/media
+
+# Backup files # 
+*.bak 
+
+# Python # 
+*.py[cod] 
+*$py.class 
+
+
+# Installer logs 
+pip-log.txt 
+pip-delete-this-directory.txt 
+
+# celery 
+online_judge/celerybeat-schedule.* 
+
+# SageMath parsed files 
+*.sage.py 
+
+# Environments 
+env/ 
+
+
+# Visual Studio Code # 
+.vscode/* 
+!.vscode/settings.json 
+!.vscode/tasks.json 
+!.vscode/launch.json 
+!.vscode/extensions.json 
+.history
