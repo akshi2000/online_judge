@@ -17,3 +17,9 @@ services:
 
   redis:
     image: redis:alpine
+
+  react-frontend:
+    build: ./react-frontend
+    command: npm run start
+    ports:
+      - 1338:3000
