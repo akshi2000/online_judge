@@ -1,9 +1,10 @@
 import "./App.css";
+import Routes from "./appRoutes/Routes";
 
 function App() {
   return (
     <div className="App">
-      <h1>Online Judge</h1>
+      <Routes />
     </div>
   );
 }
