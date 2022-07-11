@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from .tasks import compile_and_run, test
+
 from .models import *
 
 from .serializers import (
@@ -159,13 +161,13 @@ def getQuestionAPI(request, questionId):
         )
 
 
-# @api_view(["POST"])
-# @permission_classes([IsAuthenticated])
-# def submitAPI(request):
-#     #
-#     return Response(
-#         {
-#             "message": "error",
-#             "blog_data": "Invalid Question ID",
-#         }
-#     )
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def submitAPI(request):
+    test.delay()
+    return Response(
+        {
+            "message": "error",
+            "blog_data": "Invalid Question ID",
+        }
+    )

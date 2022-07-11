@@ -30,4 +30,5 @@ urlpatterns = [
     path("blog/<blogId>", getBlogAPI),
     path("questions-list", questionsAPI),
     path("question/<questionId>", getQuestionAPI),
+    path("submit", submitAPI),
 ]

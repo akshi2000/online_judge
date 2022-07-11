@@ -12,6 +12,7 @@ services:
       - DEBUG=1
       - SECRET_KEY=django-insecure-ijc$$5l%ls1o74ikutum@=x)b@r#)2(cv@zyj@j9z2)ki2hhdi7
       - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - CELERY_BROKER_URL=redis://redis:6379/0
     depends_on:
       - redis
 
@@ -21,9 +22,20 @@ services:
   react-frontend:
     build: ./react-frontend
     command: npm start
-    volumes:
-      - ./react-frontend/:/usr/src/app/
     environment:
       - REACT_APP_SERVER_URL=http://localhost:1337/
     ports:
       - 1338:3000
+  
+  celery:
+    build: ./online_judge
+    command: celery -A online_judge worker -E -l info
+    volumes:
+      - ./online_judge/:/usr/src/app/
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=django-insecure-ijc$$5l%ls1o74ikutum@=x)b@r#)2(cv@zyj@j9z2)ki2hhdi7
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    depends_on:
+      - redis
