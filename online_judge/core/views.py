@@ -8,7 +8,15 @@ from rest_framework.response import Response
 
 from .models import *
 
-from .serializers import LoginSerializer, ProfileSerializer, RegisterSerializer
+from .serializers import (
+    BlogSerializer,
+    BlogListSerializer,
+    LoginSerializer,
+    ProfileSerializer,
+    QuestionSerializer,
+    QuestionsListSerializer,
+    RegisterSerializer,
+)
 
 
 def index(request):
@@ -85,12 +93,79 @@ def profileAPI(request):
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def blogsAPI(request, blogId=1):
-    user = request.user
-    user_profile = Profile.objects.get_or_create(user=user)
+def blogsAPI(request):
+    blogs_queryset = Blog.objects.all()
+    blogs_data = BlogListSerializer(blogs_queryset, many=True).data
     return Response(
         {
             "message": "success",
-            "profile_data": ProfileSerializer(user_profile).data,
+            "blogs_data": blogs_data,
         }
     )
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def getBlogAPI(request, blogId):
+    try:
+        blog_query_object = Blog.objects.get(id=blogId)
+        return Response(
+            {
+                "message": "success",
+                "blog_data": BlogSerializer(blog_query_object).data,
+            }
+        )
+    except:
+        return Response(
+            {
+                "message": "error",
+                "blog_data": "Invalid Blog ID",
+            }
+        )
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def questionsAPI(request):
+    questions_queryset = Question.objects.all()
+    questions_data = QuestionsListSerializer(questions_queryset, many=True).data
+    return Response(
+        {
+            "message": "success",
+            "blogs_data": questions_data,
+        }
+    )
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def getQuestionAPI(request, questionId):
+    try:
+        print(questionId)
+        question_query_object = Question.objects.get(id=questionId)
+        return Response(
+            {
+                "message": "success",
+                "blog_data": QuestionSerializer(question_query_object).data,
+            }
+        )
+    except Exception as e:
+        print(e)
+        return Response(
+            {
+                "message": "error",
+                "blog_data": "Invalid Question ID",
+            }
+        )
+
+
+# @api_view(["POST"])
+# @permission_classes([IsAuthenticated])
+# def submitAPI(request):
+#     #
+#     return Response(
+#         {
+#             "message": "error",
+#             "blog_data": "Invalid Question ID",
+#         }
+#     )

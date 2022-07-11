@@ -26,5 +26,8 @@ urlpatterns = [
     path("register", registerAPI),
     path("logout", logoutAPI),
     path("profile", profileAPI),
-    path("blog", profileAPI),
+    path("blogs-list", blogsAPI),
+    path("blog/<blogId>", getBlogAPI),
+    path("questions-list", questionsAPI),
+    path("question/<questionId>", getQuestionAPI),
 ]

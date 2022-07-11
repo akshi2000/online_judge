@@ -33,3 +33,35 @@ class ProfileSerializer(serializers.Serializer):
     correct_submissions = serializers.IntegerField()
     incorrect_submissions = serializers.IntegerField()
     runtime_error_submissions = serializers.IntegerField()
+    tle_submissions = serializers.IntegerField()
+
+
+class BlogListSerializer(serializers.Serializer):
+    id = serializers.CharField()
+    author = serializers.CharField()
+    name = serializers.CharField()
+    date = serializers.DateField()
+    timestamp = serializers.TimeField()
+
+
+class BlogSerializer(serializers.Serializer):
+    id = serializers.CharField()
+    author = serializers.CharField()
+    name = serializers.CharField()
+    statement = serializers.CharField()
+    date = serializers.DateField()
+    timestamp = serializers.TimeField()
+
+
+class QuestionsListSerializer(serializers.Serializer):
+    id = serializers.CharField()
+    name = serializers.CharField()
+
+
+class QuestionSerializer(serializers.Serializer):
+    id = serializers.CharField()
+    name = serializers.CharField()
+    statement = serializers.CharField()
+    timelimit = serializers.CharField()
+    memlimit = serializers.CharField()
+    tags = serializers.ManyRelatedField(id)

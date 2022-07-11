@@ -9,6 +9,7 @@ class Profile(models.Model):
     correct_submissions = models.IntegerField(default=0)
     incorrect_submissions = models.IntegerField(default=0)
     runtime_error_submissions = models.IntegerField(default=0)
+    tle_submissions = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username
