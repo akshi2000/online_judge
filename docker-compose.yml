@@ -24,6 +24,6 @@ services:
     volumes:
       - ./react-frontend/:/usr/src/app/
     environment:
-      - REACT_APP_SERVER_URL=http:localhost:1337
+      - REACT_APP_SERVER_URL=http://localhost:1337/
     ports:
       - 1338:3000
