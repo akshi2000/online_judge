@@ -6,11 +6,15 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .serializers import LoginSerializer, RegisterSerializer
+from .models import *
+
+from .serializers import LoginSerializer, ProfileSerializer, RegisterSerializer
 
 
 def index(request):
-    return HttpResponse("JNNSDANDAS")
+    return HttpResponse(
+        "<h1>This is an API only Application, Please access the <a href='http://localhost:1338'>frontend client</a> <h1>"
+    )
 
 
 # Register API
@@ -62,5 +66,31 @@ def logoutAPI(request):
     return Response(
         {
             "message": "success",
+        }
+    )
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def profileAPI(request):
+    user = request.user
+    user_profile = Profile.objects.get_or_create(user=user)[0]
+    return Response(
+        {
+            "message": "success",
+            "profile_data": ProfileSerializer(user_profile).data,
+        }
+    )
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def blogsAPI(request, blogId=1):
+    user = request.user
+    user_profile = Profile.objects.get_or_create(user=user)
+    return Response(
+        {
+            "message": "success",
+            "profile_data": ProfileSerializer(user_profile).data,
         }
     )

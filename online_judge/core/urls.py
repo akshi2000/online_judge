@@ -17,7 +17,7 @@ from atexit import register
 from django.contrib import admin
 from django.urls import path, include
 
-from .views import index, loginAPI, logoutAPI, registerAPI
+from .views import *
 
 
 urlpatterns = [
@@ -25,4 +25,6 @@ urlpatterns = [
     path("login", loginAPI),
     path("register", registerAPI),
     path("logout", logoutAPI),
+    path("profile", profileAPI),
+    path("blog", profileAPI),
 ]

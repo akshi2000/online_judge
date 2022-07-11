@@ -4,12 +4,14 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    bio = models.CharField(max_length=100, null=True)
+    institution = models.CharField(max_length=100, null=True)
     correct_submissions = models.IntegerField(default=0)
     incorrect_submissions = models.IntegerField(default=0)
     runtime_error_submissions = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 
 class Blog(models.Model):
