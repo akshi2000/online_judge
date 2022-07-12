@@ -5,6 +5,7 @@ import time
 
 @app.task(name="compile_and_run", bind=True, max_retries=3)
 def compile_and_run(self, submissionId):
+    print("Running Submission ", submissionId)
     pass
 
 

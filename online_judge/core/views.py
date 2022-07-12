@@ -18,6 +18,8 @@ from .serializers import (
     QuestionSerializer,
     QuestionsListSerializer,
     RegisterSerializer,
+    SubmissionDataSerializer,
+    SubmissionSerializer,
 )
 
 
@@ -35,7 +37,7 @@ def registerAPI(request):
     user = serializer.save()
     return Response(
         {
-            "message": "success",
+            "detail": "success",
             "user": LoginSerializer(user).data,
             "token": Token.objects.get_or_create(user=user)[0].key,
         }
@@ -52,7 +54,7 @@ def loginAPI(request):
     if user:
         return Response(
             {
-                "message": "success",
+                "detail": "success",
                 "user": LoginSerializer(user).data,
                 "token": Token.objects.get_or_create(user=user)[0].key,
             }
@@ -60,7 +62,7 @@ def loginAPI(request):
     else:
         return Response(
             {
-                "message": "error",
+                "detail": "error",
                 "error": "Invalid Username/Password",
             }
         )
@@ -75,7 +77,7 @@ def logoutAPI(request):
         pass
     return Response(
         {
-            "message": "success",
+            "detail": "success",
         }
     )
 
@@ -87,7 +89,7 @@ def profileAPI(request):
     user_profile = Profile.objects.get_or_create(user=user)[0]
     return Response(
         {
-            "message": "success",
+            "detail": "success",
             "profile_data": ProfileSerializer(user_profile).data,
         }
     )
@@ -100,7 +102,7 @@ def blogsAPI(request):
     blogs_data = BlogListSerializer(blogs_queryset, many=True).data
     return Response(
         {
-            "message": "success",
+            "detail": "success",
             "blogs_data": blogs_data,
         }
     )
@@ -113,14 +115,14 @@ def getBlogAPI(request, blogId):
         blog_query_object = Blog.objects.get(id=blogId)
         return Response(
             {
-                "message": "success",
+                "detail": "success",
                 "blog_data": BlogSerializer(blog_query_object).data,
             }
         )
     except:
         return Response(
             {
-                "message": "error",
+                "detail": "error",
                 "blog_data": "Invalid Blog ID",
             }
         )
@@ -133,7 +135,7 @@ def questionsAPI(request):
     questions_data = QuestionsListSerializer(questions_queryset, many=True).data
     return Response(
         {
-            "message": "success",
+            "detail": "success",
             "blogs_data": questions_data,
         }
     )
@@ -147,7 +149,7 @@ def getQuestionAPI(request, questionId):
         question_query_object = Question.objects.get(id=questionId)
         return Response(
             {
-                "message": "success",
+                "detail": "success",
                 "blog_data": QuestionSerializer(question_query_object).data,
             }
         )
@@ -155,7 +157,7 @@ def getQuestionAPI(request, questionId):
         print(e)
         return Response(
             {
-                "message": "error",
+                "detail": "error",
                 "blog_data": "Invalid Question ID",
             }
         )
@@ -164,10 +166,23 @@ def getQuestionAPI(request, questionId):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def submitAPI(request):
-    test.delay()
+    submission_data = SubmissionSerializer(data=request.data)
+    submission_data.is_valid(raise_exception=True)
+    ques = submission_data.validated_data["ques"]
+    code = submission_data.validated_data["code"]
+    lang = submission_data.validated_data["lang"]
+    submission = Submission(
+        user=User.objects.get(username=request.user),
+        ques=Question.objects.get(id=ques),
+        code=code,
+        lang=lang,
+    )
+    submission.save()
+    submission_obj = SubmissionDataSerializer(submission).data
     return Response(
         {
-            "message": "error",
-            "blog_data": "Invalid Question ID",
+            "detail": "success",
+            "blog_data": "Submitted",
+            "submission_data": submission_obj,
         }
     )

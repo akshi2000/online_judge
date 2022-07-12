@@ -56,7 +56,6 @@ class Testcase(models.Model):
 
 
 class Submission(models.Model):
-    submission_id = models.IntegerField(primary_key=True, auto_created=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="submissions")
     ques = models.ForeignKey(
         Question, on_delete=models.CASCADE, related_name="submissions"
@@ -66,4 +65,4 @@ class Submission(models.Model):
     verdict = models.CharField(max_length=50, default="Submission Queued")
 
     def __str__(self):
-        return self.submission_id
+        return f"{self.id}: {self.user}"
