@@ -83,8 +83,8 @@ class SubmissionSerializer(serializers.Serializer):
         lang = data["lang"]
         if Question.objects.filter(id=ques).count() == 0:
             raise serializers.ValidationError("Question Id is invalid")
-        if lang not in ["c++", "python", "java"]:
+        if lang not in ["CPP", "Python", "Java"]:
             raise serializers.ValidationError(
-                "Language not supported, supported languages include: 'c++', 'java' and 'python'"
+                "Language not supported, supported languages include: 'CPP', 'Java' and 'Python'"
             )
         return data

@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.10.5-alpine
+FROM jrei/systemd-ubuntu:latest
 
 # set work directory
 WORKDIR /usr/src/app
@@ -10,6 +10,9 @@ ENV PYTHONUNBUFFERED 1
 
 # copy project
 COPY . /usr/src/app/
+
+RUN apt update
+RUN apt install python3 python3-pip -y
 
 # install dependencies
 RUN pip install --upgrade pip

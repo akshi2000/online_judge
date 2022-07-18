@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .tasks import compile_and_run, test
+from .tasks import compile_and_run
 
 from .models import *
 
@@ -178,6 +178,7 @@ def submitAPI(request):
         lang=lang,
     )
     submission.save()
+    compile_and_run.delay(submission.id)
     submission_obj = SubmissionDataSerializer(submission).data
     return Response(
         {
