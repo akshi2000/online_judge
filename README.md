@@ -17,7 +17,7 @@ Django, DRF, Celery, Redis, ReactJs, Docker, Schroot, Linux
 - Run command: ```docker-compose up exec celery /bin/bash ``` to access terminal of celery worker container.
 - Run command: ```./server-setup.sh ``` to setup the chroot environment, users and permissions which will provide environment for processing submissions.
 - Access the backend django server at <a href="http://localhost:1337/">localhost:1337</a>
-- Access the frontend nginx server at <a href="http://localhost:1338/">localhost:1338</a>
+- Access the frontend react client at <a href="http://localhost:1338/">localhost:1338</a>
 - Use the frontend client to signup/login and interact with application.
 - Given API endpoints can be used to fetch transactions and accounts information.
 
