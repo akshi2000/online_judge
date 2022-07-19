@@ -79,8 +79,6 @@ def compile_and_run(self, submission_id):
 
         with open(f"{DIR}/{submission_id}.tc", "w") as f:
             f.write(testcase.testcase)
-        with open(f"{DIR}/{submission_id}.ans", "w") as f:
-            f.write(testcase.answer)
 
         err_code = os.system(
             f'su - guest -c "schroot -c compile-run --directory {DIR} -- timeout {ques.timelimit} {cmd} < {DIR}/{submission_id}.tc" > {DIR}/{submission_id}.out'
@@ -101,6 +99,9 @@ def compile_and_run(self, submission_id):
             profile.runtime_error_submissions += 1
             profile.save()
             return
+
+        with open(f"{DIR}/{submission_id}.ans", "w") as f:
+            f.write(testcase.answer)
 
         match = os.system(
             f"diff -ZB {DIR}/{submission_id}.out {DIR}/{submission_id}.ans"
